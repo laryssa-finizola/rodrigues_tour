@@ -39,3 +39,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tools and credentials
+/.codex/
+/.agents/
+/.aws/
+/.ssh/
+.npmrc
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+
+# local test output, logs and source archives
+/dist/
+/test-results/
+/playwright-report/
+/blob-report/
+*.log
+/*.zip
+/*.tar
+/*.tgz
+Thumbs.db

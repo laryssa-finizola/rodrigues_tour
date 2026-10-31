@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1320" preserveAspectRatio="xMidYMid slice">
+ <defs>
+  <linearGradient id="s" x2="0" y2="1"><stop stop-color="#b9d2cd"/><stop offset=".75" stop-color="#e6d6b2"/><stop offset="1" stop-color="#c8c8a4"/></linearGradient>
+  <linearGradient id="h" x2="0" y2="1"><stop stop-color="#789d8c"/><stop offset="1" stop-color="#2e6256"/></linearGradient>
+  <linearGradient id="h2" x2="0" y2="1"><stop stop-color="#3b7569"/><stop offset="1" stop-color="#184a44"/></linearGradient>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".4" numOctaves="3" seed="2"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer></filter>
+ </defs>
+ <rect width="1000" height="1320" fill="url(#s)"/>
+ <circle cx="740" cy="260" r="105" fill="#f4ddad" opacity=".75"/>
+ <path d="M0 686 216 360 361 565 517 307 716 602 884 422 1000 585v735H0Z" fill="#b8c2ad"/>
+ <path d="m0 735 200-300 165 202 174-264 180 263 175-150 106 173v661H0Z" fill="url(#h)"/>
+ <path d="m0 837 150-150 173 148 162-239 195 216 164-157 156 190v475H0Z" fill="url(#h2)"/>
+ <path d="M0 975Q130 906 240 968T480 960T720 945T1000 943V1320H0Z" fill="#24544b"/>
+ <path d="M0 1070Q245 978 448 1076T1000 1015v305H0Z" fill="#153c39"/>
+ <path d="M0 1215q220-118 450-50t550-26v181H0Z" fill="#10342f"/>
+ <g fill="#e6d6b2" opacity=".55"><circle cx="139" cy="258" r="3"/><circle cx="297" cy="170" r="2"/><circle cx="439" cy="295" r="3"/></g>
+ <rect width="1000" height="1320" filter="url(#grain)" opacity=".5"/>
+</svg>
