@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "check:repo": "node scripts/check-repo.mjs",
-    "test:repo": "node --test scripts/check-repo.test.mjs"
+    "test:repo": "node --test scripts/check-repo.test.mjs",
+    "og:image": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-og-image.mjs"
   },
   "dependencies": {
     "next": "16.4.6",
@@ -21,6 +22,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "sharp": "0.35.5",
     "typescript": "^5"
   }
 }

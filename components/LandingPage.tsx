@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { preload } from "react-dom";
 import Icon from "@/components/Icons";
+import { site } from "@/lib/site";
 
-const INSTAGRAM_URL = "https://www.instagram.com/rodriguesturpb/";
+const INSTAGRAM_URL = site.instagram.url;
+const WHATSAPP_URL = site.whatsapp.urlWithMessage();
 
 const scenes = [
   {
@@ -117,9 +120,11 @@ export default function LandingPage() {
   const [period, setPeriod] = useState(periods[0]);
   const [company, setCompany] = useState(companies[1]);
   const [plannerCopy, setPlannerCopy] = useState<{ text: string; success: boolean } | null>(null);
-  const [destinationCopy, setDestinationCopy] = useState<{ city: string; text: string; success: boolean } | null>(null);
   const copyOperationRef = useRef(0);
   const copyQueueRef = useRef<Promise<void> | null>(null);
+
+  // The first hero photo is the likely LCP element; it is a CSS background, so let the browser fetch it early.
+  preload(scenes[0].image, { as: "image", fetchPriority: "high" });
 
   const scene = scenes[sceneIndex];
   const message = createMessage(style, period, company);
@@ -190,7 +195,6 @@ export default function LandingPage() {
   function requestCopy(text: string, onComplete: (success: boolean) => void) {
     const operation = ++copyOperationRef.current;
     setPlannerCopy(null);
-    setDestinationCopy(null);
     const run = async () => {
       if (operation !== copyOperationRef.current) return;
       const success = await copyText(text);
@@ -207,9 +211,8 @@ export default function LandingPage() {
     void task.then(clear, clear);
   }
 
-  function handleDestinationClick(destination: string) {
-    const text = `Ol\u00e1, Rodrigues Tur! Vi ${destination} na galeria de inspira\u00e7\u00f5es do site. Voc\u00eas t\u00eam alguma viagem ou roteiro dispon\u00edvel para esse destino?`;
-    requestCopy(text, (success) => setDestinationCopy({ city: destination, text, success }));
+  function destinationWhatsAppUrl(destination: string) {
+    return site.whatsapp.urlWithMessage(`Ol\u00e1, Rodrigues Tur! Vi ${destination} no site. Voc\u00eas t\u00eam excurs\u00e3o ou pacote dispon\u00edvel para esse destino saindo de Jo\u00e3o Pessoa?`);
   }
 
   const navigation = [
@@ -259,8 +262,8 @@ export default function LandingPage() {
         <section className="hero" aria-labelledby="hero-title">
           <div className="shell hero__grid">
             <div className="hero__content">
-              <h1 id="hero-title">O mundo &eacute; grande.<br /><em>Viva</em> cada<br />peda&ccedil;o dele<span className="hero__period">.</span></h1>
-              <p className="hero__lead">Tem lugares que a gente conhece. E tem lugares que ficam na gente. Sua pr&oacute;xima hist&oacute;ria come&ccedil;a aqui.</p>
+              <h1 id="hero-title"><span className="hero__kicker">Ag&ecirc;ncia de viagens em Jo&atilde;o Pessoa &middot; PB</span>O mundo &eacute; grande.<br /><em>Viva</em> cada<br />peda&ccedil;o dele<span className="hero__period">.</span></h1>
+              <p className="hero__lead">Excurs&otilde;es em grupo e pacotes personalizados saindo de Jo&atilde;o Pessoa. Tem lugares que a gente conhece. E tem lugares que ficam na gente.</p>
               <div className="hero__actions">
                 <a className="button button--primary" href="#destinos">Explore possibilidades <Icon name="arrow-up-right" size={18} /></a>
                 <a className="text-link" href="#como-funciona">Como funciona <Icon name="arrow-right" size={18} /></a>
@@ -314,7 +317,7 @@ export default function LandingPage() {
                 <h2 id="destinos-title">Pra onde a sua <em>curiosidade</em><br />vai te levar?</h2>
               </div>
               <div className="section-heading__aside">
-                <p>Um gostinho de tudo que existe por a&iacute;. Explore ideias e descubra qual destino combina com a sua pr&oacute;xima viagem.</p>
+                <p>Ideias para a sua pr&oacute;xima excurs&atilde;o ou pacote saindo de Jo&atilde;o Pessoa. Escolha um destino e pergunte &agrave; equipe sobre as pr&oacute;ximas sa&iacute;das.</p>
               </div>
             </div>
             <div className="destination-grid">
@@ -324,12 +327,11 @@ export default function LandingPage() {
                     <span className="sr-only" role="img" aria-label={`Vista ilustrativa de ${destination.city}`} />
                     <span className="destination-card__category">{destination.category}</span>
                     <a
-                      href={INSTAGRAM_URL}
+                      href={destinationWhatsAppUrl(destination.city)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="destination-card__circle"
-                      aria-label={`Consultar ${destination.city} pelo Instagram`}
-                      onClick={() => handleDestinationClick(destination.city)}
+                      aria-label={`Perguntar sobre viagens para ${destination.city} pelo WhatsApp`}
                     ><Icon name="arrow-up-right" size={24} /></a>
                     <span className="destination-card__image-number">{destination.number} / 03</span>
                   </div>
@@ -341,11 +343,8 @@ export default function LandingPage() {
               ))}
             </div>
             <div className="destination-footer" data-reveal>
-              <div role="status" aria-live="polite">
-                <span>{destinationCopy ? (destinationCopy.success ? `Mensagem sobre ${destinationCopy.city} copiada. Abra a conversa no Instagram e cole.` : "Não foi possível copiar automaticamente. Selecione a mensagem abaixo para copiar.") : null}</span>
-                {destinationCopy && !destinationCopy.success && <p className="destination-message">{destinationCopy.text}</p>}
-              </div>
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="underlined-link">Fale com a Rodrigues Tur <Icon name="arrow-up-right" size={19} /></a>
+              <p>As imagens s&atilde;o inspira&ccedil;&otilde;es. Datas, valores e disponibilidade s&atilde;o confirmados com a equipe.</p>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="underlined-link">Fale com a Rodrigues Tur no WhatsApp <Icon name="arrow-up-right" size={19} /></a>
             </div>
           </div>
         </section>
@@ -360,7 +359,7 @@ export default function LandingPage() {
             <div className="story__content" data-reveal>
               <h2 id="story-title">N&atilde;o &eacute; s&oacute; sobre <em>ir.</em><br />&Eacute; sobre tudo que voc&ecirc; <em>vive.</em></h2>
               <p className="story__lead">Acreditamos naquelas viagens que rendem conversas por anos. Nas descobertas inesperadas, nas fotos espont&acirc;neas e no prazer de sair da rotina.</p>
-              <p className="story__lead story__lead--second">A Rodrigues Tur &eacute; o ponto de partida para transformar essa vontade de conhecer o mundo em um novo plano.</p>
+              <p className="story__lead story__lead--second">A Rodrigues Tur &eacute; uma ag&ecirc;ncia de turismo de Jo&atilde;o Pessoa, na Para&iacute;ba, que organiza excurs&otilde;es em grupo e pacotes personalizados. &Eacute; o ponto de partida para transformar essa vontade de conhecer o mundo em um novo plano.</p>
               <div className="story__features">
                 <div><Icon name="compass" size={24} /><span>Novos horizontes</span><small>Explore possibilidades</small></div>
                 <div><Icon name="heart" size={24} /><span>Boas lembran&ccedil;as</span><small>Viva cada momento</small></div>
@@ -378,7 +377,7 @@ export default function LandingPage() {
             </div>
             <div className="steps">
               <article className="step" data-reveal><span className="step__number">01</span><div className="step__icon"><Icon name="compass" size={29}/></div><h3>Deixe a vontade falar</h3><p>Escolha o tipo de experi&ecirc;ncia que combina com voc&ecirc; e imagine o pr&oacute;ximo lugar.</p><div className="step__connector" aria-hidden="true" /></article>
-              <article className="step" data-reveal><span className="step__number">02</span><div className="step__icon"><Icon name="message" size={29}/></div><h3>Conte seus planos</h3><p>Converse com a equipe para conhecer as op&ccedil;&otilde;es e informa&ccedil;&otilde;es atualizadas.</p><div className="step__connector" aria-hidden="true" /></article>
+              <article className="step" data-reveal><span className="step__number">02</span><div className="step__icon"><Icon name="message" size={29}/></div><h3>Conte seus planos</h3><p>Converse com a equipe pelo WhatsApp ou Instagram para conhecer as excurs&otilde;es, os pacotes e as informa&ccedil;&otilde;es atualizadas.</p><div className="step__connector" aria-hidden="true" /></article>
               <article className="step" data-reveal><span className="step__number">03</span><div className="step__icon"><Icon name="plane" size={29}/></div><h3>Prepare a sua hist&oacute;ria</h3><p>Combine os detalhes diretamente com a equipe e comece a contagem regressiva.</p></article>
             </div>
           </div>
@@ -406,15 +405,21 @@ export default function LandingPage() {
               <div className="planner__preview"><div><Icon name="message" size={16}/> PR&Eacute;VIA DA MENSAGEM</div><p>{message}</p></div>
               <a
                 className="button button--primary planner__submit"
+                href={site.whatsapp.urlWithMessage(message)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >Enviar pedido pelo WhatsApp <Icon name="whatsapp" size={19}/></a>
+              <a
+                className="text-link planner__alt"
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
                   requestCopy(message, (success) => setPlannerCopy({ text: message, success }));
                 }}
-              >Copiar pedido e abrir Instagram <Icon name="arrow-up-right" size={19}/></a>
+              >Prefere o Instagram? Copiar e abrir o direct <Icon name="arrow-up-right" size={16}/></a>
               <p className={`planner__status ${copyStatus === "success" ? "planner__status--success" : ""}`} role="status" aria-live="polite">
-                {copyStatus === "success" ? "Mensagem copiada! Basta colar no direct do Instagram." : copyStatus === "error" ? "N\u00e3o foi poss\u00edvel copiar automaticamente. Selecione a mensagem acima para copiar." : "O Instagram abre em outra aba. Nada ser\u00e1 enviado automaticamente."}
+                {copyStatus === "success" ? "Mensagem copiada! Basta colar no direct do Instagram." : copyStatus === "error" ? "N\u00e3o foi poss\u00edvel copiar automaticamente. Selecione a mensagem acima para copiar." : "A conversa abre em outra aba com a mensagem pronta. Nada \u00e9 enviado sem voc\u00ea confirmar."}
               </p>
             </div>
           </div>
@@ -422,9 +427,11 @@ export default function LandingPage() {
 
         <section className="faq section" id="duvidas" aria-labelledby="faq-title">
           <div className="shell faq__grid">
-            <div data-reveal><p className="eyebrow"><span className="eyebrow__line" /> PERGUNTAS FREQUENTES</p><h2 id="faq-title">Antes de fazer as malas,<br /><em>tire suas d&uacute;vidas.</em></h2><p className="faq__helper">N&atilde;o encontrou o que procura? A equipe da Rodrigues Tur pode esclarecer os detalhes diretamente no Instagram.</p><a className="underlined-link" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">Conversar com a equipe <Icon name="arrow-up-right" size={17}/></a></div>
+            <div data-reveal><p className="eyebrow"><span className="eyebrow__line" /> PERGUNTAS FREQUENTES</p><h2 id="faq-title">Antes de fazer as malas,<br /><em>tire suas d&uacute;vidas.</em></h2><p className="faq__helper">N&atilde;o encontrou o que procura? A equipe da Rodrigues Tur esclarece os detalhes pelo WhatsApp ou pelo Instagram.</p><a className="underlined-link" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Conversar com a equipe <Icon name="arrow-up-right" size={17}/></a></div>
             <div className="faq__list" data-reveal>
-              <details><summary>Como pe&ccedil;o informa&ccedil;&otilde;es sobre uma viagem?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>Voc&ecirc; pode falar com a Rodrigues Tur pelo Instagram. Para facilitar, use o planejador acima e copie a mensagem com suas prefer&ecirc;ncias.</p></details>
+              <details><summary>Onde fica a Rodrigues Tur?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>A Rodrigues Tur &eacute; uma ag&ecirc;ncia de viagens de Jo&atilde;o Pessoa, na Para&iacute;ba. O atendimento &eacute; feito pelo WhatsApp <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">{site.whatsapp.display}</a> e pelo Instagram.</p></details>
+              <details><summary>Voc&ecirc;s fazem excurs&otilde;es em grupo ou pacotes personalizados?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>Os dois. A ag&ecirc;ncia organiza excurs&otilde;es em grupo saindo de Jo&atilde;o Pessoa e tamb&eacute;m monta pacotes personalizados conforme o seu estilo, a data e quem vai viajar com voc&ecirc;.</p></details>
+              <details><summary>Como pe&ccedil;o informa&ccedil;&otilde;es sobre uma viagem?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>Use o planejador acima: ele prepara uma mensagem com as suas prefer&ecirc;ncias e abre o WhatsApp da Rodrigues Tur. Se preferir, copie a mensagem e envie pelo direct do Instagram.</p></details>
               <details><summary>Os destinos mostrados est&atilde;o dispon&iacute;veis?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>As imagens desta p&aacute;gina s&atilde;o inspira&ccedil;&otilde;es de viagem, n&atilde;o an&uacute;ncios de pacotes. Consulte a equipe para confirmar roteiros, datas, valores e disponibilidade.</p></details>
               <details><summary>Onde acompanho as novidades?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>No perfil oficial <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">@rodriguesturpb</a>, onde voc&ecirc; pode buscar informa&ccedil;&otilde;es atualizadas e entrar em contato.</p></details>
               <details><summary>Posso enviar uma ideia de destino diferente?<span className="faq__plus"><Icon name="plus" size={20}/></span></summary><p>Claro! Compartilhe o lugar que voc&ecirc; tem em mente e pergunte &agrave; equipe quais possibilidades de viagem est&atilde;o dispon&iacute;veis.</p></details>
@@ -437,17 +444,17 @@ export default function LandingPage() {
             <span className="closing__star" aria-hidden="true">&#10022;</span>
             <p className="eyebrow eyebrow--light">A PR&Oacute;XIMA P&Aacute;GINA DA SUA HIST&Oacute;RIA</p>
             <h2>O mundo est&aacute; esperando.<br /><em>E voc&ecirc;?</em></h2>
-            <a className="button button--cream" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">Vamos conversar sobre viajar <Icon name="arrow-up-right" size={19}/></a>
+            <a className="button button--cream" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Vamos conversar sobre viajar <Icon name="arrow-up-right" size={19}/></a>
             <span className="closing__deco closing__deco--left" aria-hidden="true">BON VOYAGE</span><span className="closing__deco closing__deco--right" aria-hidden="true">RODRIGUES TUR</span>
           </div>
         </section>
       </main>
 
       <footer className="footer">
-        <div className="shell footer__top"><div><Brand /><p>O pr&oacute;ximo lugar que vai morar<br />no seu cora&ccedil;&atilde;o come&ccedil;a aqui.</p></div><div className="footer__nav"><span>EXPLORAR</span><a href="#destinos">Inspira&ccedil;&otilde;es</a><a href="#sobre">Nossa ess&ecirc;ncia</a><a href="#como-funciona">Como funciona</a><a href="#duvidas">D&uacute;vidas</a></div><div className="footer__social"><span>VAMOS CONVERSAR?</span><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"><Icon name="instagram" size={20}/> @rodriguesturpb <Icon name="arrow-up-right" size={18}/></a><p>Converse com a equipe para confirmar informa&ccedil;&otilde;es e disponibilidade.</p></div></div>
+        <div className="shell footer__top"><div><Brand /><p>O pr&oacute;ximo lugar que vai morar<br />no seu cora&ccedil;&atilde;o come&ccedil;a aqui.</p></div><div className="footer__nav"><span>EXPLORAR</span><a href="#destinos">Inspira&ccedil;&otilde;es</a><a href="#sobre">Nossa ess&ecirc;ncia</a><a href="#como-funciona">Como funciona</a><a href="#duvidas">D&uacute;vidas</a></div><address className="footer__social"><span>VAMOS CONVERSAR?</span><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={20}/> {site.whatsapp.display} <Icon name="arrow-up-right" size={18}/></a><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"><Icon name="instagram" size={20}/> {site.instagram.handle} <Icon name="arrow-up-right" size={18}/></a><p>{site.name}: ag&ecirc;ncia de viagens em {site.city}, {site.regionName}. Converse com a equipe para confirmar informa&ccedil;&otilde;es e disponibilidade.</p></address></div>
         <div className="shell footer__bottom"><span>&copy; {new Date().getFullYear()} Rodrigues Tur. Feito para quem ama explorar.</span><a href="#inicio">Voltar ao topo &#8593;</a></div>
       </footer>
-      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="floating-contact" aria-label="Falar com a Rodrigues Tur no Instagram"><Icon name="instagram" size={19}/><span>Vamos conversar?</span></a>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="floating-contact" aria-label="Falar com a Rodrigues Tur no WhatsApp"><Icon name="whatsapp" size={19}/><span>Vamos conversar?</span></a>
       <a href="#planejar" className="mobile-fixed-cta">Planejar minha viagem <Icon name="arrow-up-right" size={18}/></a>
     </>
   );

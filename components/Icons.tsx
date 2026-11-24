@@ -21,7 +21,8 @@ type IconName =
   | "chevron-down"
   | "copy"
   | "plane"
-  | "send";
+  | "send"
+  | "whatsapp";
 
 export default function Icon({
   name,
@@ -62,6 +63,7 @@ export default function Icon({
     copy: <><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></>,
     plane: <><path d="m21 3-7.7 18-3.6-7.7L2 9.7 21 3Z" /><path d="m21 3-11.3 10.3" /></>,
     send: <><path d="m22 2-7 20-4-9-9-4 20-7Z" /><path d="M22 2 11 13" /></>,
+    whatsapp: <><path d="M3.5 20.5 4.9 16A8.5 8.5 0 1 1 8 19.1L3.5 20.5Z" /><path d="M9 8.6c.2 3.3 3 6.2 6.4 6.4l1.1-1.5-2.1-1.1-.9.8a5 5 0 0 1-2.7-2.7l.8-.9-1.1-2.1L9 8.6Z" /></>,
   };
 
   return <svg {...common} {...props}>{paths[name]}</svg>;
