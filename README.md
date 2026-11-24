@@ -1,6 +1,6 @@
 # Rodrigues Tur
 
-Landing page responsiva em Next.js 16.4.3, React 19 e TypeScript. O redesign foi integrado ao repositório existente usando a versão fornecida como referência visual.
+Landing page responsiva em Next.js 16.4.6, React 19 e TypeScript. O redesign foi integrado ao repositório existente usando a versão fornecida como referência visual.
 
 ## Executar localmente
 
