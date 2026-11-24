@@ -7,11 +7,11 @@ const INSTAGRAM_URL = "https://www.instagram.com/rodriguesturpb/";
 
 const scenes = [
   {
-    title: "Sol, sal e boas hist\u00f3rias",
-    category: "P\u00e9 na areia",
-    location: "Porto de Galinhas, PE",
-    image: "https://images.unsplash.com/photo-1768486173251-95f16f855830?auto=format&fit=crop&w=1600&q=82",
-    fallback: "/scenes/coast.svg",
+    title: "F\u00e9, hist\u00f3ria e bons encontros",
+    category: "F\u00e9 e tradi\u00e7\u00e3o",
+    location: "Aparecida, SP",
+    image: "https://images.unsplash.com/photo-1579671307539-edd4337b075a?auto=format&fit=crop&w=1600&q=82",
+    fallback: "/scenes/hills.svg",
   },
   {
     title: "Caminhos que surpreendem",
@@ -23,8 +23,8 @@ const scenes = [
   {
     title: "O melhor de estar por a\u00ed",
     category: "Perto da natureza",
-    location: "Jo\u00e3o Pessoa, PB",
-    image: "https://images.unsplash.com/photo-1732216467230-42ce323767a8?auto=format&fit=crop&w=1600&q=82",
+    location: "Foz do Igua\u00e7u, PR",
+    image: "https://images.unsplash.com/photo-1709733167498-80adcb461fd3?auto=format&fit=crop&w=1600&q=82",
     fallback: "/scenes/coast.svg",
   },
 ];
@@ -32,13 +32,13 @@ const scenes = [
 const destinations = [
   {
     number: "01",
-    category: "SOL & MAR",
-    city: "Porto de Galinhas",
-    state: "Pernambuco",
-    description: "Um convite para desacelerar diante do azul.",
-    image: "https://images.unsplash.com/photo-1768486173279-22c3d418bfaf?auto=format&fit=crop&w=1050&q=80",
-    fallback: "/scenes/coast.svg",
-    variant: "coast",
+    category: "FÉ & TRADIÇÃO",
+    city: "Aparecida",
+    state: "São Paulo",
+    description: "Um encontro com a fé e a história, de perto.",
+    image: "https://images.unsplash.com/photo-1654619138995-1a2144c73ffa?auto=format&fit=crop&w=1050&q=80",
+    fallback: "/scenes/hills.svg",
+    variant: "faith",
   },
   {
     number: "02",
@@ -52,13 +52,13 @@ const destinations = [
   },
   {
     number: "03",
-    category: "LITORAL & ENCANTOS",
-    city: "Jo\u00e3o Pessoa",
-    state: "Para\u00edba",
-    description: "Dias de sol e uma cidade para sentir de perto.",
-    image: "https://images.unsplash.com/photo-1732216467230-42ce323767a8?auto=format&fit=crop&w=1050&q=80",
+    category: "NATUREZA & AVENTURA",
+    city: "Foz do Igua\u00e7u",
+    state: "Paran\u00e1",
+    description: "A for\u00e7a das \u00e1guas para sentir de perto.",
+    image: "https://images.unsplash.com/photo-1566924910888-13e0dd3946f4?auto=format&fit=crop&w=1050&q=80",
     fallback: "/scenes/coast.svg",
-    variant: "sea",
+    variant: "falls",
   },
 ];
 
@@ -259,7 +259,6 @@ export default function LandingPage() {
         <section className="hero" aria-labelledby="hero-title">
           <div className="shell hero__grid">
             <div className="hero__content">
-              <div className="eyebrow hero__eyebrow"><span className="eyebrow__line" /> PARA QUEM NASCEU PARA EXPLORAR</div>
               <h1 id="hero-title">O mundo &eacute; grande.<br /><em>Viva</em> cada<br />peda&ccedil;o dele<span className="hero__period">.</span></h1>
               <p className="hero__lead">Tem lugares que a gente conhece. E tem lugares que ficam na gente. Sua pr&oacute;xima hist&oacute;ria come&ccedil;a aqui.</p>
               <div className="hero__actions">
@@ -270,7 +269,6 @@ export default function LandingPage() {
                 <span className="hero__bottom-mark"><Icon name="compass" size={22} /></span>
                 <div><strong>Seu destino, seu ritmo.</strong><span>As melhores viagens t&ecirc;m a sua cara.</span></div>
               </div>
-              <span className="hero__microtext" aria-hidden="true">COMECE AQUI / RODRIGUES TUR</span>
             </div>
             <div className="hero__visual">
               <div key={scene.image} className="hero__photo" id="scene-panel" role="tabpanel" aria-labelledby={`scene-tab-${sceneIndex}`} style={photoStyle(scene.image, scene.fallback, "linear-gradient(180deg, rgba(11,44,37,.05) 30%, rgba(7,31,27,.42) 100%)")}><span className="sr-only">Imagem ilustrativa: {scene.location}</span></div>
@@ -301,7 +299,6 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div className="hero__scroll shell"><a href="#destinos">ROLE PARA DESCOBRIR <span className="scroll-arrow">&#8595;</span></a></div>
         </section>
 
         <div className="marquee" aria-hidden="true">
@@ -314,12 +311,10 @@ export default function LandingPage() {
           <div className="shell">
             <div className="section-heading" data-reveal>
               <div>
-                <p className="eyebrow"><span className="eyebrow__line" /> UM MUNDO DE POSSIBILIDADES</p>
                 <h2 id="destinos-title">Pra onde a sua <em>curiosidade</em><br />vai te levar?</h2>
               </div>
               <div className="section-heading__aside">
                 <p>Um gostinho de tudo que existe por a&iacute;. Explore ideias e descubra qual destino combina com a sua pr&oacute;xima viagem.</p>
-                <span className="subtle-note"><Icon name="sparkles" size={16} /> Destinos ilustrativos, consulte disponibilidade.</span>
               </div>
             </div>
             <div className="destination-grid">
@@ -347,7 +342,7 @@ export default function LandingPage() {
             </div>
             <div className="destination-footer" data-reveal>
               <div role="status" aria-live="polite">
-                <span>{destinationCopy ? (destinationCopy.success ? `Mensagem sobre ${destinationCopy.city} copiada. Abra a conversa no Instagram e cole.` : "Não foi possível copiar automaticamente. Selecione a mensagem abaixo para copiar.") : "Tem outro destino em mente? A conversa também começa por aqui."}</span>
+                <span>{destinationCopy ? (destinationCopy.success ? `Mensagem sobre ${destinationCopy.city} copiada. Abra a conversa no Instagram e cole.` : "Não foi possível copiar automaticamente. Selecione a mensagem abaixo para copiar.") : null}</span>
                 {destinationCopy && !destinationCopy.success && <p className="destination-message">{destinationCopy.text}</p>}
               </div>
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="underlined-link">Fale com a Rodrigues Tur <Icon name="arrow-up-right" size={19} /></a>
@@ -363,7 +358,6 @@ export default function LandingPage() {
               <div className="story__postcard"><span>&#10022; LEMBRETE DE VIAGEM</span><strong>O melhor souvenir<br />&eacute; a mem&oacute;ria.</strong></div>
             </div>
             <div className="story__content" data-reveal>
-              <p className="eyebrow eyebrow--light"><span className="eyebrow__line" /> NOSSA ESS&Ecirc;NCIA</p>
               <h2 id="story-title">N&atilde;o &eacute; s&oacute; sobre <em>ir.</em><br />&Eacute; sobre tudo que voc&ecirc; <em>vive.</em></h2>
               <p className="story__lead">Acreditamos naquelas viagens que rendem conversas por anos. Nas descobertas inesperadas, nas fotos espont&acirc;neas e no prazer de sair da rotina.</p>
               <p className="story__lead story__lead--second">A Rodrigues Tur &eacute; o ponto de partida para transformar essa vontade de conhecer o mundo em um novo plano.</p>
@@ -379,7 +373,6 @@ export default function LandingPage() {
         <section className="how section" id="como-funciona" aria-labelledby="how-title">
           <div className="shell">
             <div className="how__intro" data-reveal>
-              <p className="eyebrow"><span className="eyebrow__line" /> MAIS SIMPLES DO QUE PARECE</p>
               <h2 id="how-title">Seu pr&oacute;ximo destino<br />come&ccedil;a com um <em>passo.</em></h2>
               <p>Uma forma leve de tirar a viagem do campo das ideias e come&ccedil;ar a organizar o que vem pela frente.</p>
             </div>
@@ -394,13 +387,12 @@ export default function LandingPage() {
         <section className="planner section" id="planejar" aria-labelledby="planner-title">
           <div className="shell planner__grid">
             <div className="planner__intro" data-reveal>
-              <p className="eyebrow eyebrow--light"><span className="eyebrow__line" /> SUA VIAGEM, DO SEU JEITO</p>
               <h2 id="planner-title">Qual &eacute; a sua <em>pr&oacute;xima</em><br />grande hist&oacute;ria?</h2>
               <p>Responda a tr&ecirc;s perguntinhas. Preparamos uma mensagem com as suas prefer&ecirc;ncias para facilitar o primeiro contato.</p>
               <div className="planner__scribble" aria-hidden="true"><svg viewBox="0 0 240 100" width="210" height="92" fill="none"><path d="M6 71c30 8 67 13 98-7 28-18 40-53 66-51 23 2 32 39 12 54-13 10-25-1-19-12 8-15 30 3 47 16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6 9"/><path d="m199 61 11 10-14 5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg><Icon name="plane" size={31}/></div>
             </div>
             <div className="planner__card" data-reveal>
-              <div className="planner__card-heading"><span><Icon name="sparkles" size={17}/> SEU PONTO DE PARTIDA</span><span className="planner__steps">01 &mdash; 03</span></div>
+              <div className="planner__card-heading"><span className="planner__steps">01 &mdash; 03</span></div>
               <fieldset className="planner__fieldset">
                 <legend><span>01</span> Qual tipo de viagem te chama?</legend>
                 <div className="style-options" role="group" aria-label="Estilo de viagem">
